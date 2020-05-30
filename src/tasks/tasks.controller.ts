@@ -1,6 +1,7 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common'
+import { Controller, Get, Post,Patch, Body, Param } from '@nestjs/common'
 import { TasksService } from './tasks.service'
 import { Task, TaskStatus } from './task.model'
+import { CreateTaskValidate  } from './validation/createTask.model'
 
 
 @Controller('tasks')
@@ -19,10 +20,17 @@ export class TasksController {
 
   @Post()
   createTask (
-    @Body('title') title : string,
-    @Body('description') description : string
+    @Body() createTask : CreateTaskValidate,
     ): Task {
-    return this.tasksService.createTask(title,description)
+    return this.tasksService.createTask(createTask)
+  } 
+  
+  @Patch('/:id/status')
+  updateTaskStatus(
+    @Param('id') id: string,
+    @Body('status') status: TaskStatus,
+  ){
+    return this.tasksService.updateStatusTask(id,status)
   } 
 
 }
