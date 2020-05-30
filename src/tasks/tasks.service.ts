@@ -14,14 +14,30 @@ export class TasksService {
      return this.tasks.find( task  => task.id === id)
    }
 
-   createTask(title: string, description: string) : Task {
+   createTask(creatTask) : Task {
      const task: Task = {
         id : uuidv1(),     
-        title: title,
-        description: description,
+        title: creatTask.title,
+        description: creatTask.description,
         status : TaskStatus.OPEN           
      }
+     this.tasks.push(task)
      return task
    }
-    
+
+   deleteTask(id : string) : string {
+     this.tasks = this.tasks.filter( task =>  task.id !== id)     
+     return "Sucess"
+   }
+
+   updateStatusTask(id : string, status : TaskStatus) : Task {
+    const task = this.getTask(id)
+    task.status = status
+    this.tasks.forEach((task,index)=>{
+      if(task.id  === id){
+        this.tasks[index] === task
+      }
+    })
+    return task 
+   }   
 } 
